@@ -66,6 +66,39 @@ class Hand(object):
         self.cards = []
 
 
+class Deck(object):
+    """Creates a deck with 52 cards"""
+    def __init__(self):
+        self.deck = []
+        for suit in Card.SUITS:
+            for rank in Card.RANKS:
+                card = Card(rank,suit, False)
+                self.addCard(card)
+
+    def __str__(self):
+        output = ""
+        for card in self.deck:
+            output += "[" + card.rank + card.suit + "]"
+        return output
+
+    def shuffleDeck(self):
+        """shuffles the cards in the deck object"""
+        random.shuffle(self.deck)
+
+    def drawCard(self,hand:Hand):
+        """removes the first card in the deck and gives it to a hand object"""
+        card = self.deck[0]
+        card.flipCard()
+        self.deck.remove(card)
+        hand.addCard(card)
+
+    def addCard(self,card:Card):
+        self.deck.append(card)
+
+    def remainingCardCount(self):
+        return len(self.deck)
+        
+        
 h = Hand()
 otherHand = Hand()
 h.addCard(Card("9","D"))
@@ -76,11 +109,14 @@ print(h)
 print(otherHand)
 h.clearCards()
 print(h)
+deck = Deck()
 
+deck.shuffleDeck()
 
+print(h)
 
+for i in range(5):
+    deck.drawCard(h)
 
-
-
-
-
+print(h)
+print(deck.remainingCardCount())
